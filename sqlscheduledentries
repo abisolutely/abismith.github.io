@@ -1,0 +1,19 @@
+-- 
+
+select brand_name,series_name, season_number, episode_number, title_name, schedule_entry_starts_at, schedule_entry_ends_at, platform_name, schedule_entry_metadata_status
+from britbox.brands
+INNER JOIN britbox.series
+ON series.brand_id = brands.brand_id
+FULL OUTER JOIN britbox.titles
+ON titles.series_id = series.series_id
+FULL OUTER JOIN britbox.versions
+ON versions.title_id = titles.title_id
+FULL OUTER JOIN britbox.schedule_entries 
+ON schedule_entries.title_id = titles.title_id
+FULL OUTER JOIN britbox.platforms
+ON platforms.platform_id = schedule_entries.platform_id
+FULL OUTER JOIN britbox.jobs
+ON schedule_entries.schedule_entry_id = jobs.schedule_entry_id
+where
+schedule_entry_starts_at > '2023-01-01 00:00:00'
+and brand_name not like 'Coming Soon%'
